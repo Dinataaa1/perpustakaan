@@ -1,11 +1,12 @@
 # Aplikasi Perpustakaan
 
 ## Nama Aplikasi
+
 Aplikasi Perpustakaan
 
 ## Tujuan
-Aplikasi ini dibuat untuk mengelola data perpustakaan seperti data buku,
-anggota, dan peminjaman buku.
+
+Aplikasi ini dibuat untuk mengelola data perpustakaan seperti data buku, anggota, dan peminjaman buku.
 
 ## Cara Menjalankan Project
 
@@ -53,3 +54,12 @@ http://127.0.0.1:8000
 Model bertugas mengatur data dan interaksi dengan database.
 View bertugas menampilkan tampilan kepada pengguna.
 Controller menjadi penghubung antara Model dan View serta mengatur alur proses aplikasi.
+=======
+
+```bash
+git clone https://github.com/Dinataaa1/perpustakaan.git
+
+## Konsep MVC
+
+**Model** bertugas mengelola data dan berinteraksi dengan database. **View** bertugas menampilkan tampilan atau antarmuka kepada pengguna. **Controller** bertugas mengatur alur proses aplikasi dan menjadi penghubung antara Model dan View.
+>>>>>>> 681972d (setuo routing resource)
