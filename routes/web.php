@@ -1,14 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\LoanController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::prefix('admin')->group(function () {
-
-    Route::get('/info', function () {
-        return "Halaman Admin Info";
-    });
-});
+Route::resource('books', BookController::class);
+Route::resource('categories', CategoryController::class)->except(['show']);
+Route::resource('members', MemberController::class);
+Route::resource('loans', LoanController::class);

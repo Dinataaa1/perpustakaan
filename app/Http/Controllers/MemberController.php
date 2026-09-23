@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreMemberRequest;
+
+class MemberController extends Controller
+{
+    private array $members = [
+        [
+            'id' => 1,
+            'nama' => 'Rizky Ramadhan',
+            'nim' => '3125600001',
+            'email' => 'rizky@example.com',
+            'nomor_telepon' => '081234567890',
+            'alamat' => 'Surabaya',
+            'status' => 'aktif',
+        ],
+        [
+            'id' => 2,
+            'nama' => 'Siti Aisyah',
+            'nim' => '3125600002',
+            'email' => 'siti@example.com',
+            'nomor_telepon' => '081298765432',
+            'alamat' => 'Mojokerto',
+            'status' => 'aktif',
+        ],
+    ];
+
+    public function index()
+    {
+        $members = $this->members;
+
+        return view('members.index', compact('members'));
+    }
+
+    public function create()
+    {
+        return view('members.create');
+    }
+
+    public function store(StoreMemberRequest $request)
+    {
+        $validated = $request->validated();
+
+        return redirect()
+            ->route('members.index')
+            ->with('success', "Anggota \"{$validated['nama']}\" berhasil ditambahkan.");
+    }
+
+    public function show(string $id)
+    {
+        return "Detail anggota dengan ID: {$id}";
+    }
+
+    public function edit(string $id)
+    {
+        return "Form edit anggota dengan ID: {$id}";
+    }
+
+    public function update(StoreMemberRequest $request, string $id)
+    {
+        return redirect()
+            ->route('members.index')
+            ->with('success', "Anggota dengan ID {$id} berhasil diperbarui.");
+    }
+
+    public function destroy(string $id)
+    {
+        return redirect()
+            ->route('members.index')
+            ->with('success', "Anggota dengan ID {$id} berhasil dihapus.");
+    }
+}
