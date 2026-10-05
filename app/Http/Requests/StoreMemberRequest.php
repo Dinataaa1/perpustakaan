@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreMemberRequest extends FormRequest
 {
@@ -20,15 +21,28 @@ class StoreMemberRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-  public function rules(): array
+ public function rules(): array
 {
     return [
-        'nama' => ['required', 'string', 'max:255'],
-        'nim' => ['required', 'string', 'max:50'],
-        'email' => ['required', 'email', 'max:255'],
-        'nomor_telepon' => ['required', 'string', 'max:20'],
+        'nama' => ['required', 'string', 'max:100'],
+
+        'nim' => [
+            'required',
+            'string',
+            'max:20',
+            Rule::unique('members', 'nim')->ignore($this->route('member')),
+        ],
+
+        'email' => [
+            'required',
+            'email',
+            'max:100',
+            Rule::unique('members', 'email')->ignore($this->route('member')),
+        ],
+
+        'nomor_telepon' => ['required', 'string', 'max:15'],
         'alamat' => ['required', 'string'],
-        'status' => ['required', 'string'],
+        'status' => ['required', 'in:aktif,nonaktif'],
     ];
 }
 }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
     <title>Daftar Anggota</title>
 </head>
 <body>
@@ -10,6 +11,19 @@
     @if (session('success'))
         <p>{{ session('success') }}</p>
     @endif
+
+    <form action="{{ route('members.index') }}" method="GET">
+        <input
+            type="text"
+            name="search"
+            placeholder="Cari nama anggota..."
+            value="{{ request('search') }}"
+        >
+
+        <button type="submit">Cari</button>
+    </form>
+
+    <br>
 
     <a href="{{ route('members.create') }}">Tambah Anggota</a>
 
@@ -25,23 +39,60 @@
                 <th>Nomor Telepon</th>
                 <th>Alamat</th>
                 <th>Status</th>
+                <th>Aksi</th>
             </tr>
         </thead>
 
         <tbody>
-            @foreach ($members as $member)
+            @forelse ($members as $member)
                 <tr>
-                    <td>{{ $member['id'] }}</td>
-                    <td>{{ $member['nama'] }}</td>
-                    <td>{{ $member['nim'] }}</td>
-                    <td>{{ $member['email'] }}</td>
-                    <td>{{ $member['nomor_telepon'] }}</td>
-                    <td>{{ $member['alamat'] }}</td>
-                    <td>{{ $member['status'] }}</td>
+                    <td>{{ $member->id }}</td>
+                    <td>{{ $member->nama }}</td>
+                    <td>{{ $member->nim }}</td>
+                    <td>{{ $member->email }}</td>
+                    <td>{{ $member->nomor_telepon }}</td>
+                    <td>{{ $member->alamat }}</td>
+                    <td>{{ $member->status }}</td>
+                    <td>
+                        <a href="{{ route('members.show', $member->id) }}">
+                            Detail
+                        </a>
+
+                        |
+
+                        <a href="{{ route('members.edit', $member->id) }}">
+                            Edit
+                        </a>
+
+                        |
+
+                        <form
+                            action="{{ route('members.destroy', $member->id) }}"
+                            method="POST"
+                            style="display:inline"
+                        >
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit">
+                                Hapus
+                            </button>
+                        </form>
+                    </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="8">
+                        Tidak ada anggota ditemukan.
+                    </td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
+
+    <br>
+
+    {{ $members->appends(request()->query())->links() }}
 
 </body>
 </html>
