@@ -8,6 +8,7 @@ use App\Http\Controllers\LoanController;
 
 Route::redirect('/', '/books');
 
+Route::patch('loans/{id}/kembalikan', [LoanController::class, 'kembalikan'])->name('loans.kembalikan');
 Route::resource('books', BookController::class);
 Route::resource('categories', CategoryController::class)->except(['show']);
 Route::resource('members', MemberController::class);
