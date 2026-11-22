@@ -16,14 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $petugas = User::firstOrCreate(
-            ['email' => 'petugas@perpus.ac.id'],
-            [
-                'name' => 'Ahmad Petugas',
-                'password' => bcrypt('password'),
-                'role' => 'petugas',
-            ]
-        );
+        $this->call([
+            UserSeeder::class,
+        ]);
+
+        $petugas = User::where('role', 'petugas')->first();
 
         $fiksi = Category::firstOrCreate(
             ['nama_kategori' => 'Fiksi'],
