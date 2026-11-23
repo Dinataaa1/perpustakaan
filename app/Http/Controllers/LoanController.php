@@ -6,10 +6,40 @@ use App\Models\Book;
 use App\Models\Loan;
 use App\Models\Member;
 use App\Models\User;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class LoanController extends Controller
 {
+    public function report(Request $request)
+    {
+        $status = $request->query('status');
+        $loans = [];
+        $apiError = false;
+
+        try {
+            $baseUrl = config('services.internal_api.base_url');
+            $url = "{$baseUrl}/api/loans";
+
+            if ($status) {
+                $url .= "?status={$status}";
+            }
+
+            $response = Http::timeout(5)->get($url);
+
+            if ($response->successful()) {
+                $loans = $response->json('data', []);
+            } else {
+                $apiError = true;
+            }
+        } catch (ConnectionException $e) {
+            $apiError = true;
+        }
+
+        return view('loans.report', compact('loans', 'status', 'apiError'));
+    }
+
     public function index()
     {
         $loans = Loan::with(['member', 'user', 'loanItems.book'])->paginate(10);
